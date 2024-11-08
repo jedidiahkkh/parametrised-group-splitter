@@ -4,8 +4,9 @@ import java.io.IOException;
 import java.util.*;
 
 public class Main {
-
-  static PriorityQueue<RankedGrouping> generated = new PriorityQueue<>(1, Comparator.comparing(r -> r.score));
+  static PriorityQueue<RankedGrouping> generated = new PriorityQueue<RankedGrouping>(1,
+      Comparator.comparingDouble((RankedGrouping r) -> r.score).thenComparingInt(r -> -r.lowest).thenComparingInt(r -> r.lowestCount)
+  );
   static int SIZE;
   static int grid[][];
   static ArrayList<String> names = new ArrayList<>();
@@ -44,6 +45,7 @@ public class Main {
     Set<Integer> skip = new HashSet<>();
     BufferedReader br = new BufferedReader(new FileReader("data"));
     String line;
+    Grouping.setNoOfGroups(Integer.parseInt(br.readLine()));
     int lineCount = 0;
     while ((line = br.readLine()) != null && !line.matches("=*")) {
       Scanner s = new Scanner(line);
@@ -51,7 +53,7 @@ public class Main {
       System.out.println(name);
       if (name.equals("x")) {
         skip.add(lineCount);
-        System.out.println("removed:" + lineCount+":"+s.next());
+        System.out.println("removed:" + lineCount + ":" + s.next());
       }
       lineCount++;
     }
@@ -62,6 +64,7 @@ public class Main {
 
     grid = new int[SIZE][SIZE];
     br = new BufferedReader(new FileReader("data"));
+    br.readLine(); // read the group count at the top
     int gridI = 0;
     for (int i = 0; i < DATASIZE; i++) {
       int gridJ = 0;
@@ -87,9 +90,9 @@ public class Main {
           break;
         }
         Scanner s = new Scanner(line);
-        while(s.hasNext()) {
+        while (s.hasNext()) {
           int fixedName = names.indexOf(s.next());
-          System.out.println("add "+fixedName+":"+i);
+          System.out.println("add " + fixedName + ":" + i);
           g.add(fixedName, i);
           fixed.add(fixedName);
         }
@@ -143,7 +146,7 @@ public class Main {
     if (fixed.contains(member)) {
       bestGroup(member + 1, cur);
     } else {
-      for (int groupNo = 0; groupNo < Grouping.COUNT; groupNo++) {
+      for (int groupNo = 0; groupNo < Grouping.noOfGroups; groupNo++) {
         Grouping g = new Grouping(cur);
         g.add(member, groupNo);
         bestGroup(member + 1, g);
