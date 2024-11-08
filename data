@@ -1,0 +1,11 @@
+3
+PersonA	 	2	3	2	1	0	2	0
+PersonB	2	 	3	1	2	0	2	0
+PersonC	3	3	 	2	2	0	1	0
+PersonD 2	1	2	 	3	0	1	0
+PersonE 1	2	2	3	 	0	2	0
+PersonF 0	0	0	0	0	 	0	0
+x PersonG 2	2	1	1	2	0	 	0
+PersonH 0	0	0	0	0	0	0
+
+PersonA PersonB
